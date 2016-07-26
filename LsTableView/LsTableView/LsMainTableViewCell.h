@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  LsMainTableViewCell.h
 //  LsTableView
 //
 //  Created by 光头强 on 16/7/26.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface LsMainTableViewCell : UITableViewCell
 
 @end
-
