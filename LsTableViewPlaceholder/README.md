@@ -19,18 +19,18 @@ LsTableViewPlaceholder一行代码实现UITableView无数据时展示占位视�
 [self.tableView ls_setPlaceholderView:^UIView * _Nonnull(UITableView * _Nonnull tableView) {
         UIView *weChatStyle = [self weChatStylePlaceHolder];
         return weChatStyle;
-    }];
+ }];
 
 ```
 
 
 ## 适用于多种应用应用场景
 
-[MyDemoCode](https://github.com/ShuangLee/MyDemoCode) 是基于  `dataSource`  数据源是否为空，所以只需操作  `dataSource`  数据源，即可完成占位视图的 `。只要为空就会触发。并且每次在操作占位视图的 `addSubview` 和 `removeFromSuperview` 时，每次都会将旧的销毁，并触发 `- (UIView *)makePlaceHolderView` 创建一个新的视图。如果在该方法中进行 if 判断，也就能适用于不同的场景。
+[LsTableViewPlaceholder](https://github.com/ShuangLee/MyDemoCode/tree/master/LsTableViewPlaceholder) 是基于  `dataSource`  数据源是否为空，所以只需操作  `dataSource`  数据源，即可完成占位视图的 `。只要为空就会触发。并且每次都会从block中重新创建placeholder。如果在该block中进行 if 判断，也就能适用于不同的场景。
 
-   1.  [ 网络故障 ](https://github.com/ShuangLee/MyDemoCode#网络故障) 
-    1.  [ 网络不可用，禁止重新加载 ](https://github.com/ShuangLee/MyDemoCode#网络不可用禁止重新加载) 
-   2.  [ 暂无数据 ](https://github.com/ShuangLee/MyDemoCode#暂无数据) 
+   1.  [ 网络故障 ](https://github.com/ShuangLee/MyDemoCode/tree/master/LsTableViewPlaceholder#网络故障) 
+    1.  [ 网络不可用，禁止重新加载 ](https://github.com/ShuangLee/MyDemoCode/tree/master/LsTableViewPlaceholder#网络不可用禁止重新加载) 
+   2.  [ 暂无数据 ](https://github.com/ShuangLee/MyDemoCode/tree/master/LsTableViewPlaceholder#暂无数据) 
 
 ### 网络故障
 
@@ -47,7 +47,7 @@ LsTableViewPlaceholder一行代码实现UITableView无数据时展示占位视�
  ```Objective-C
  [self.tableView ls_setPlaceholderView:^UIView * _Nonnull(UITableView * _Nonnull tableView) {
         return NetNotAvailableView;
-    }];
+ }];
 
  ```
 
@@ -92,7 +92,7 @@ App | 暂无数据 | 网络故障
         }
         UIView *weChatStyle = [self weChatStylePlaceHolder];
         return weChatStyle;
-    }];
+ }];
  ```
 
 
