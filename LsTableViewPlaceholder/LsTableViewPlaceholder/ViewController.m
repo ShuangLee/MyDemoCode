@@ -10,12 +10,14 @@
 #import "MJRefresh.h"
 #import "UITableView+Placeholder.h"
 #import "WeChatStylePlaceHolder.h"
+#import "XTNetReloader.h"
 
 static const CGFloat LsDuration = 1.0;
 #define LsRandomData [NSString stringWithFormat:@"随机数据---%d", arc4random_uniform(1000000)]
 @interface ViewController ()<WeChatStylePlaceHolderDelegate>
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, assign, getter=isNoResult) BOOL noResult;
+@property (nonatomic, assign, getter=isNetNotAvailable) BOOL NetNotAvailable;//模拟网络故障
 @end
 
 @implementation ViewController
@@ -42,6 +44,9 @@ static const CGFloat LsDuration = 1.0;
     self.view.backgroundColor = [UIColor cyanColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView ls_setPlaceholderView:^UIView * _Nonnull(UITableView * _Nonnull tableView) {
+        if (self.isNetNotAvailable) {
+            return [self taoBaoStylePlaceHolder];
+        }
         UIView *weChatStyle = [self weChatStylePlaceHolder];
         return weChatStyle;
     }];
@@ -71,6 +76,14 @@ static const CGFloat LsDuration = 1.0;
     return weChatStylePlaceHolder;
 }
 
+- (UIView *)taoBaoStylePlaceHolder {
+    __block XTNetReloader *netReloader = [[XTNetReloader alloc] initWithFrame:CGRectMake(0, 0, 0, 0)
+                                                                  reloadBlock:^{
+                                                                      [self.tableView.mj_header beginRefreshing];
+                                                                  }] ;
+    return netReloader;
+}
+
 #pragma mark - WeChatStylePlaceHolderDelegate Method
 - (void)emptyOverlayClicked:(id)sender {
     //[self loadNewData];
@@ -81,6 +94,7 @@ static const CGFloat LsDuration = 1.0;
 - (void)loadNewData {
     if (!self.isNoResult) {
         self.dataSource = nil;
+        self.NetNotAvailable = YES;
     } else {
         // 1.添加假数据
         for (int i = 0; i<5; i++) {
